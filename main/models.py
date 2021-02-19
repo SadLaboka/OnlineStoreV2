@@ -30,6 +30,30 @@ class Product(models.Model):
         abstract = True
 
 
+class Notebook(Product):
+    diagonal = models.CharField(max_length=255, verbose_name='Диагональ')
+    display_type = models.CharField(max_length=255, verbose_name='Тип дисплея')
+    processor = models.CharField(max_length=255, verbose_name='Частота процессора')
+    ram = models.CharField(max_length=255, verbose_name='Оперативная память')
+    video = models.CharField(max_length=255, verbose_name='Видеокарта')
+    time_without_charge = models.CharField(max_length=255, verbose_name='Время автономной работы')
+
+    def __str__(self):
+        return f"{self.category.title} : {self.title}"
+
+
+class Smartphone(Product):
+    diagonal = models.CharField(max_length=255, verbose_name='Диагональ')
+    display_type = models.CharField(max_length=255, verbose_name='Тип дисплея')
+    resolution = models.CharField(max_length=255, verbose_name='Разрешение экрана')
+    accum_volume = models.CharField(max_length=255, verbose_name='Емкость аккумулятора')
+    ram = models.CharField(max_length=255, verbose_name='Оперативная память')
+    sd = models.BooleanField(default=True)
+    sd_volume_max = models.CharField(max_length=255, verbose_name='Максимальный объем карты памяти')
+    main_cam_mp = models.CharField(max_length=255, verbose_name='Разрешение главной камеры')
+    frontal_cam_mp = models.CharField(max_length=255, verbose_name='Разрешение фронтальной камеры', null=True)
+
+
 class CartProduct(models.Model):
     user = models.ForeignKey('Customer', verbose_name='Покупатель', on_delete=models.CASCADE)
     cart = models.ForeignKey('Cart', verbose_name='Корзина', on_delete=models.CASCADE, related_name='related_products')
