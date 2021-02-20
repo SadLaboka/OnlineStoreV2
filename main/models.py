@@ -3,7 +3,17 @@ from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
+from PIL import Image
+
 User = get_user_model()
+
+
+class MinResolutionErrorException(Exception):
+    pass
+
+
+class MaxResolutionErrorException(Exception):
+    pass
 
 
 class LatestProductsManager:
@@ -39,17 +49,36 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"
+
 
 class Product(models.Model):
+    MIN_RESOLUTION = (300, 300)
+    MAX_RESOLUTION = (1000, 1000)
+    MAX_IMAGE_SIZE = 3145728
+
     title = models.CharField(max_length=255, verbose_name='Название продукта')
     slug = models.SlugField(unique=True)
-    image = models.ImageField(verbose_name='Изображение')
+    image = models.ImageField(verbose_name='Изображение', upload_to='Products/%Y/%m/%d/')
     description = models.TextField(verbose_name='Описание', null=True)
     price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        image = self.image
+        img = Image.open(image)
+        min_height, min_width = self.MIN_RESOLUTION
+        max_height, max_width = self.MAX_RESOLUTION
+        if img.height < min_height or img.width < min_width:
+            raise MinResolutionErrorException('Разрешение изображения меньше минимального!')
+        if img.height > max_height or img.width > max_width:
+            raise MaxResolutionErrorException('Разрешение изображения больше максимального!')
+        return image
 
     class Meta:
         abstract = True
@@ -66,6 +95,10 @@ class Notebook(Product):
     def __str__(self):
         return f"{self.category.title} : {self.title}"
 
+    class Meta:
+        verbose_name = "Ноутбук"
+        verbose_name_plural = "Ноутбуки"
+
 
 class Smartphone(Product):
     diagonal = models.CharField(max_length=255, verbose_name='Диагональ')
@@ -77,6 +110,13 @@ class Smartphone(Product):
     sd_volume_max = models.CharField(max_length=255, verbose_name='Максимальный объем карты памяти')
     main_cam_mp = models.CharField(max_length=255, verbose_name='Разрешение главной камеры')
     frontal_cam_mp = models.CharField(max_length=255, verbose_name='Разрешение фронтальной камеры', null=True)
+
+    def __str__(self):
+        return f"{self.category.title} : {self.title}"
+
+    class Meta:
+        verbose_name = "Смартфон"
+        verbose_name_plural = "Смартфоны"
 
 
 class CartProduct(models.Model):
@@ -101,6 +141,10 @@ class Cart(models.Model):
     def __str__(self):
         return str(self.id)
 
+    class Meta:
+        verbose_name = "Корзина"
+        verbose_name_plural = "Корзины"
+
 
 class Customer(models.Model):
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
@@ -109,3 +153,7 @@ class Customer(models.Model):
 
     def __str__(self):
         return f"Покупатель: {self.user.first_name} {self.user.last_name}"
+
+    class Meta:
+        verbose_name = "Покупатель"
+        verbose_name_plural = "Покупатели"
