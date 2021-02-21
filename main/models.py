@@ -62,7 +62,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     MIN_RESOLUTION = (300, 300)
-    MAX_RESOLUTION = (1000, 1000)
+    MAX_RESOLUTION = (2000, 2000)
     MAX_IMAGE_SIZE = 3145728
 
     title = models.CharField(max_length=255, verbose_name='Название продукта')
@@ -116,7 +116,9 @@ class Smartphone(Product):
     accum_volume = models.CharField(max_length=255, verbose_name='Емкость аккумулятора')
     ram = models.CharField(max_length=255, verbose_name='Оперативная память')
     sd = models.BooleanField(default=True)
-    sd_volume_max = models.CharField(max_length=255, verbose_name='Максимальный объем карты памяти')
+    sd_volume_max = models.CharField(
+        max_length=255, null=True, blank=True, verbose_name='Максимальный объем карты памяти'
+    )
     main_cam_mp = models.CharField(max_length=255, verbose_name='Разрешение главной камеры')
     frontal_cam_mp = models.CharField(max_length=255, verbose_name='Разрешение фронтальной камеры', null=True)
 
