@@ -73,6 +73,9 @@
                 </h4>
                 <h5>{{ product.price }} руб.</h5>
                 <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+                <a href="{% url 'add_to_cart' ct_model=product.get_model_name slug=product.slug %}">
+                  <button class="btn btn-danger">В корзину</button>
+                </a>
               </div>
               <div class="card-footer">
                 <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
