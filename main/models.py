@@ -104,6 +104,7 @@ class Product(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        """Ограничение разрешения загружаемого изображения"""
         image = self.image
         img = Image.open(image)
         min_height, min_width = self.MIN_RESOLUTION
