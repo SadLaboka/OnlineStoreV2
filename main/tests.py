@@ -1,3 +1,5 @@
+"""Перед тестированием закомментировать метод save в Products"""
+
 from decimal import Decimal
 from unittest import mock
 
@@ -16,7 +18,6 @@ User = get_user_model()
 class OnlineStoreTestCases(TestCase):
 
     def setUp(self) -> None:
-        """Перед тестированием закомментировать метод save в Products"""
         self.user = User.objects.create(username='testuser', password='password')
         self.category = Category.objects.create(title='Ноутбуки', slug='notebooks')
         image = SimpleUploadedFile(
@@ -65,7 +66,7 @@ class OnlineStoreTestCases(TestCase):
 
     def test_mock_homepage(self):
         mock_data = mock.Mock(status_code=444)
-        with mock.patch('main.views.BaseView.get', return_value=mock_data) as mock_data:
+        with mock.patch('main.views.BaseView.get', return_value=mock_data) as mock_data_:
             factory = RequestFactory()
             request = factory.get('')
             request.user = self.user
