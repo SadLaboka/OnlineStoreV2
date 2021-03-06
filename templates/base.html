@@ -29,8 +29,9 @@
 <div class="container">
 
     <div class="row">
-
+        {% block sidebar %}
         {% include 'inc/_sidebar.html' %}
+        {% endblock sidebar %}
 
         <div class="col-lg-9">
             {% block content %}
