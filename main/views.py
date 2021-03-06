@@ -38,16 +38,17 @@ class ProductDetailView(CartMixin, DetailView):
 
 class CategoryDetailView(CartMixin, DetailView):
 
-    model = Category
-    queryset = Category.objects.all()
-    context_object_name = 'category'
+    model = Product
+    context_object_name = 'products'
     template_name = 'main/category_detail.html'
-    slug_url_kwarg = 'slug'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['cart'] = self.cart
         return context
+
+    def get_queryset(self):
+        return Product.objects.filter(category__slug=self.kwargs['slug'])
 
 
 class AddToCartView(CartMixin, View):
