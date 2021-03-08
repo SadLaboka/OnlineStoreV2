@@ -66,7 +66,7 @@ class OnlineStoreTestCases(TestCase):
 
     def test_mock_homepage(self):
         mock_data = mock.Mock(status_code=444)
-        with mock.patch('main.views.BaseView.get', return_value=mock_data) as mock_data_:
+        with mock.patch('shop.views.BaseView.get', return_value=mock_data) as mock_data_:
             factory = RequestFactory()
             request = factory.get('')
             request.user = self.user
