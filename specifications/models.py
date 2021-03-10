@@ -17,26 +17,13 @@ class CategoryFeature(models.Model):
         unique_together = ('category', 'feature_name', 'feature_filter_name')
 
 
-class FeatureValidator(models.Model):
-    """
-    Валидатор значений для конкретной характеристики, принадлежащей к конкретной категории
-    """
-    category = models.ForeignKey('shop.Category', verbose_name='Категория', on_delete=models.CASCADE)
-    feature_key = models.ForeignKey(CategoryFeature, verbose_name='Ключ характеристики', on_delete=models.CASCADE)
-    valid_feature_value = models.CharField(max_length=100, verbose_name='Валидное значение')
-
-    def __str__(self):
-        return f'Категория "{self.category.title}" | Характеристика "{self.feature_key.feature_name}" | ' \
-               f'Валидное значение "{self.valid_feature_value}"'
-
-
 class ProductFeatures(models.Model):
     """
     Характеристики товара
     """
     product = models.ForeignKey('shop.Product', verbose_name='Товар', on_delete=models.CASCADE)
     feature = models.ForeignKey(CategoryFeature, verbose_name='Характеристика', on_delete=models.CASCADE)
-    value = models.CharField(max_length=255, verbose_name='Значение')
+    value = models.CharField(verbose_name='Значение', max_length=100)
 
     def __str__(self):
         return f'Товар - "{self.product.title}" | Характеристика - "{self.feature.feature_name}"' \

@@ -1,7 +1,7 @@
 from django import forms
 
 from shop.models import Category
-from .models import CategoryFeature, FeatureValidator
+from .models import CategoryFeature, ProductFeatures
 
 
 class NewCategoryForm(forms.ModelForm):
@@ -18,8 +18,10 @@ class NewCategoryFeatureKeyForm(forms.ModelForm):
         fields = '__all__'
 
 
-class NewFeatureValueForm(forms.ModelForm):
+class FeatureToProductForm(forms.ModelForm):
 
     class Meta:
-        model = FeatureValidator
+        model = ProductFeatures
         fields = '__all__'
+
+

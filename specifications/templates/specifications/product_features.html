@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
-    <h3 class="text-center">Админка характеристик</h3>
+    <h3 class="text-center">Управление характеристиками</h3>
     <hr>
     <div class="row">
         <div class="col-md-4">
@@ -21,12 +21,15 @@
                    class="list-group-item list-group-item action {% if request.path == '/product-specs/new-feature/' %} active{% endif %}">
                     Создать новую характеристику
                 </a>
-                <a href="{% url 'new-feature-value' %}"
-                   class="list-group-item list-group-item action {% if request.path == '/product-specs/new-feature-value/' %} active{% endif %}">
-                    Создать значение характеристики
+                <a href="{% url 'set-feature' %}"
+                   class="list-group-item list-group-item action {% if request.path == '/product-specs/set-feature/' %} active{% endif %}">
+                    Задать характеристику для товара
                 </a>
-                <a href="#" class="list-group-item list-group-item action">Создать характеристику для товара</a>
                 <a href="#" class="list-group-item list-group-item action">Редактировать характеристики товара</a>
+                <br>
+                <a href="{% url 'home' %}">
+                    <button class="btn btn-danger">Вернуться на сайт</button>
+                </a>
             </div>
         </div>
         <div class="col-md-8">

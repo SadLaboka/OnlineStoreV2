@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 
-from .forms import NewCategoryForm, NewCategoryFeatureKeyForm, NewFeatureValueForm
+from .forms import NewCategoryForm, NewCategoryFeatureKeyForm, FeatureToProductForm
 
 
 class BaseSpecView(View):
@@ -46,21 +46,21 @@ class CreateNewFeature(View):
         return render(request, 'specifications/new_feature.html', context)
 
 
-class CreateNewFeatureValue(View):
+class SetFeatureToProduct(View):
 
     def get(self, request, *args, **kwargs):
-        form = NewFeatureValueForm(request.POST or None)
+        form = FeatureToProductForm(request.POST or None)
         context = {'form': form}
-        return render(request, 'specifications/new_feature_value.html', context)
+        return render(request, 'specifications/set_feature.html', context)
 
     def post(self, request, *args, **kwargs):
-        form = NewFeatureValueForm(request.POST or None)
+        form = FeatureToProductForm(request.POST or None)
         context = {'form': form}
         if form.is_valid():
-            new_feature_value = form.save(commit=False)
-            new_feature_value.category = form.cleaned_data['category']
-            new_feature_value.feature_key = form.cleaned_data['feature_key']
-            new_feature_value.valid_feature_value = form.cleaned_data['valid_feature_value']
-            new_feature_value.save()
+            set_feature = form.save(commit=False)
+            set_feature.product = form.cleaned_data['product']
+            set_feature.feature = form.cleaned_data['feature']
+            set_feature.value = form.cleaned_data['value']
+            set_feature.save()
             return HttpResponseRedirect('/product-specs/')
-        return render(request, 'specifications/new_feature_value.html', context)
+        return render(request, 'specifications/set_feature.html', context)
