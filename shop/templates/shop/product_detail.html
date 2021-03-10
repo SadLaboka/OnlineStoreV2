@@ -15,9 +15,28 @@
     </div>
     <div class="col-md-8">
         <h3>{{ product.title }}</h3>
-        <p>Цена: {{ product.price }}</p>
+        <h4>Цена: {{ product.price }}</h4>
         <p>Описание: {{ product.description }}</p>
         <hr>
+    </div>
+    {% if specs.count %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col" style="font-size: 24px;">Характеристики:</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for spec in specs %}
+        <tr>
+            <th scope="row">{{ spec.feature.feature_name }}</th>
+            <td>{{ spec.value }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <div class="mx-auto">
         <a href="{% url 'add_to_cart' slug=product.slug %}">
             <button class="btn btn-danger">Добавить в корзину</button>
         </a>

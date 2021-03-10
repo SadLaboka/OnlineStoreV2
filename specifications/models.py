@@ -21,7 +21,7 @@ class ProductFeatures(models.Model):
     """
     Характеристики товара
     """
-    product = models.ForeignKey('shop.Product', verbose_name='Товар', on_delete=models.CASCADE)
+    product = models.ForeignKey('shop.Product', verbose_name='Товар', on_delete=models.CASCADE, related_name='features')
     feature = models.ForeignKey(CategoryFeature, verbose_name='Характеристика', on_delete=models.CASCADE)
     value = models.CharField(verbose_name='Значение', max_length=100)
 

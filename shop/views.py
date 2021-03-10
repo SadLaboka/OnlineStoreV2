@@ -33,6 +33,7 @@ class ProductDetailView(CartMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['specs'] = self.get_object().features.all()
         context['categories'] = self.get_object().category.__class__.objects.all()
         context['cart'] = self.cart
         return context
