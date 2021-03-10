@@ -8,7 +8,12 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
-admin.site.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    """Добавление категории"""
+    prepopulated_fields = {'slug': ('title',)}
+
+
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(CartProduct)
 admin.site.register(Cart)
 admin.site.register(Customer)
